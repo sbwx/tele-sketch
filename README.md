@@ -6,10 +6,7 @@
 
 ## Features
 
-* **Wireless Communication:** Uses **Wi-Fi** (or Bluetooth) for data transmission.
-* **Real-time Data:** Streams sensor/input data in real-time for immediate visualization.
-* **[Specific Sensor] Integration:** Reads input from a **[Specify your sensor, e.g., MPU6050, Capacitive Touch Panel, Joystick]**.
-* **[Specific Protocol] Protocol:** Data is packaged and sent via **[Specify your protocol, e.g., MQTT, WebSocket, Custom UDP]**.
+* **Wireless Communication:** Uses **Wi-Fi** for data transmission.
 
 ---
 
@@ -17,15 +14,13 @@
 
 ### Hardware
 
-* **ESP32/ESP32-S3 Microcontroller:** (Specify your exact board model if known, e.g., ESP32 DevKitC)
-* **[Specific Sensor] Module:** (e.g., MPU6050, ST7789 Display)
-* **Host Device:** A computer running **Python/Processing/Node.js** to visualize the sketch.
+* **ESP32/ESP32-S3 Microcontroller:** ESP32-S3-N16R8
 
 ### Software
 
-* **ESP-IDF vX.X:** (Specify your version, e.g., v5.1)
+* **ESP-IDF v5.3.1:**
 * **CMake**
-* **[Host Software Language]:** (e.g., Python, with libraries like `pyserial` or `websockets`)
+* **Python:**
 
 ---
 
@@ -53,9 +48,7 @@
 
 ### 2. Host Application Setup
 
-* *(If you have a separate host application, provide steps here:)*
     1.  Install necessary Python dependencies: `pip install -r requirements.txt`
-    2.  Run the receiver script: `python host_app/receiver.py`
 
 ---
 
