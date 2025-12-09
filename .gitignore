@@ -1,0 +1,67 @@
+#########################################################################
+## ESP-IDF / CMAKE BUILD ARTIFACTS
+#########################################################################
+
+# Build output folder - CRITICAL!
+build/
+
+# ESP-IDF Configuration files
+sdkconfig
+sdkconfig.old
+dependencies.lock
+# sdkconfig.defaults (Keep this if you use it for project configuration)
+
+#########################################################################
+## COMPILED AND GENERATED FILES (Your existing list + additions)
+#########################################################################
+
+# Executables
+*.exe
+*.out
+*.app
+*.bin
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Libraries
+*.so
+*.dylib
+*.dll
+*.lai
+*.la
+*.a
+*.lib
+
+# Debug/Intermediate files
+*.d
+*.pdb
+*.ilk
+*.gch
+*.pch
+*.mod
+*.smod
+*.dwo
+*.elf
+*.map
+*.asm.o
+
+#########################################################################
+## OPERATING SYSTEM & IDE FILES
+#########################################################################
+
+# macOS
+.DS_Store
+
+# Visual Studio Code / IDE files
+.vscode/
+
+# Vim/Nano swap files
+*~
+#*#
+
+# Linux/Temp files
+/tmp/*
