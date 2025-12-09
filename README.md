@@ -1,58 +1,74 @@
-<<<<<<< HEAD
-# tele-sketch
-A multi-user etch-a-sketch synced through Wi-Fi for long-range communication using an ESP32-S3.
-=======
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-H21 | ESP32-H4 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
+# tele-sketch: Real-time Wireless Sketching with ESP-IDF
 
-# Hello World Example
+**`tele-sketch`** is an ESP-IDF project designed to enable remote sketching or drawing functionality. It uses Wi-Fi/Bluetooth to send sensor data (like gyroscope/accelerometer input or touch coordinates) from an ESP32 device to a host application, where the data is translated into line art or graphics.
 
-Starts a FreeRTOS task to print "Hello World".
+---
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+## Features
 
-## How to use example
+* **Wireless Communication:** Uses **Wi-Fi** (or Bluetooth) for data transmission.
+* **Real-time Data:** Streams sensor/input data in real-time for immediate visualization.
+* **[Specific Sensor] Integration:** Reads input from a **[Specify your sensor, e.g., MPU6050, Capacitive Touch Panel, Joystick]**.
+* **[Specific Protocol] Protocol:** Data is packaged and sent via **[Specify your protocol, e.g., MQTT, WebSocket, Custom UDP]**.
 
-Follow detailed instructions provided specifically for this example.
+---
 
-Select the instructions depending on Espressif chip installed on your development board:
+## Hardware and Software Requirements
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+### Hardware
 
+* **ESP32/ESP32-S3 Microcontroller:** (Specify your exact board model if known, e.g., ESP32 DevKitC)
+* **[Specific Sensor] Module:** (e.g., MPU6050, ST7789 Display)
+* **Host Device:** A computer running **Python/Processing/Node.js** to visualize the sketch.
 
-## Example folder contents
+### Software
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+* **ESP-IDF vX.X:** (Specify your version, e.g., v5.1)
+* **CMake**
+* **[Host Software Language]:** (e.g., Python, with libraries like `pyserial` or `websockets`)
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
+---
 
-Below is short explanation of remaining files in the project folder.
+## Getting Started
 
-```
+### 1. Project Setup (ESP-IDF)
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/sbwx/tele-sketch.git](https://github.com/sbwx/tele-sketch.git)
+    cd tele-sketch
+    ```
+2.  **Configure the project:**
+    ```bash
+    idf.py menuconfig
+    ```
+    * Set your **Serial Flasher config** (e.g., Baud rate, Port).
+    * Go to **Component config -> Wi-Fi** (or **Bluetooth**) and configure your connectivity settings.
+    * **CRITICAL:** Define your Wi-Fi credentials (SSID and Password) in the appropriate configuration file.
+
+3.  **Build, Flash, and Monitor:**
+    ```bash
+    idf.py flash monitor
+    ```
+
+### 2. Host Application Setup
+
+* *(If you have a separate host application, provide steps here:)*
+    1.  Install necessary Python dependencies: `pip install -r requirements.txt`
+    2.  Run the receiver script: `python host_app/receiver.py`
+
+---
+
+## Project Structure
+
+```text
+tele-sketch/
+├── components/
+│   └── LovyanGFX/   # Your graphics library (tracked via git or submodule)
+├── main/
+│   ├── main.cpp      # Main application logic (sensor reading, Wi-Fi setup)
+│   └── main.h
+├── build/            # IGNORED by git - build output
 ├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
-
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
-
-## Troubleshooting
-
-* Program upload failure
-
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
->>>>>>> cdd24da (Initial commit)
+├── .gitignore        # Defines ignored files (e.g., build/, sdkconfig)
+└── README.md         # This file
