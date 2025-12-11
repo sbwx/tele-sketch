@@ -1,4 +1,3 @@
 idf_component_register(SRCS "main.cpp"
-                       PRIV_REQUIRES spi_flash
-                       REQUIRES LovyanGFX esp_adc
-                       INCLUDE_DIRS ".")
+                       INCLUDE_DIRS "." 
+                       REQUIRES LovyanGFX driver esp_adc mqtt nvs_flash)
