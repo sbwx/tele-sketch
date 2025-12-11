@@ -10,9 +10,9 @@
 
 /* Wiring Config */
 #define ADC_UNIT       ADC_UNIT_1
-#define JOY_X_CHAN     ADC_CHANNEL_3
-#define JOY_Y_CHAN     ADC_CHANNEL_4
-#define BTN_DRAW_PIN   15
+#define JOY_X_CHAN     ADC_CHANNEL_3 // GPIO 4
+#define JOY_Y_CHAN     ADC_CHANNEL_4 // GPIO 5
+#define BTN_DRAW_PIN   16
 
 /* LGFX Setup */
 class LGFX : public lgfx::LGFX_Device {
@@ -56,8 +56,8 @@ LGFX_Sprite cursorSprite(&lcd);
 adc_oneshot_unit_handle_t adc1_handle;
 
 /* JOYSTICK CALIBRATION */
-int center_x = 2048; // Default, will be overwritten
-int center_y = 2048; // Default, will be overwritten
+int center_x = 2048; 
+int center_y = 2048; 
 
 void setup_inputs() {
     // Init ADC hardware
@@ -72,12 +72,12 @@ void setup_inputs() {
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, JOY_X_CHAN, &config));
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, JOY_Y_CHAN, &config));
 
+    // Init Buttons
     gpio_reset_pin((gpio_num_t)BTN_DRAW_PIN);
     gpio_set_direction((gpio_num_t)BTN_DRAW_PIN, GPIO_MODE_INPUT);
-    gpio_set_pull_mode((gpio_num_t)BTN_DRAW_PIN, GPIO_PULLUP_ONLY);
-
-    // Calibrate joystick to reduce drift
-    // Assuming user is NOT touching joystick during boot.
+    gpio_set_pull_mode((gpio_num_t)BTN_DRAW_PIN, GPIO_PULLUP_ONLY); // Enable internal pullup
+    
+    // Calibrate joystick 
     printf("Calibrating Joystick... DON'T TOUCH ME!!!\n");
     long sum_x = 0;
     long sum_y = 0;
@@ -89,7 +89,7 @@ void setup_inputs() {
         ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, JOY_Y_CHAN, &raw_y));
         sum_x += raw_x;
         sum_y += raw_y;
-        vTaskDelay(10 / portTICK_PERIOD_MS); // delay between reads
+        vTaskDelay(10 / portTICK_PERIOD_MS); 
     }
 
     center_x = sum_x / samples;
@@ -112,10 +112,7 @@ void restoreBackgroundAt(int x, int y) {
 extern "C" void app_main(void)
 {
     if (!lcd.init()) return;
-    
-    // Setup inputs
     setup_inputs();
-    
     lcd.setRotation(1); 
 
     // Setup canvas 
@@ -128,7 +125,6 @@ extern "C" void app_main(void)
     cursorSprite.setColorDepth(16);
     cursorSprite.createSprite(36, 36);
 
-    // State vars
     float cursor_x = 240.0;
     float cursor_y = 160.0;
     int prev_x = 240;
@@ -147,9 +143,10 @@ extern "C" void app_main(void)
         int raw_x, raw_y;
         ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, JOY_X_CHAN, &raw_x));
         ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, JOY_Y_CHAN, &raw_y));
+        
+        // read draw button
         int btn_state = gpio_get_level((gpio_num_t)BTN_DRAW_PIN);
 
-        // Use calibrated center
         float val_x = (float)raw_x - center_x;
         float val_y = (float)raw_y - center_y;
 
@@ -160,11 +157,9 @@ extern "C" void app_main(void)
         if (fabs(val_y) < DEADZONE) val_y = 0;
         else val_y = val_y / DIVISOR;
 
-        // Update pos
         cursor_x += val_x; 
         cursor_y += val_y; 
 
-        // Clamp cursor to screen borders
         if (cursor_x < 18) cursor_x = 18;
         if (cursor_x > 461) cursor_x = 461;
         if (cursor_y < 18) cursor_y = 18;
@@ -173,7 +168,7 @@ extern "C" void app_main(void)
         int curr_ix = (int)cursor_x;
         int curr_iy = (int)cursor_y;
 
-        // Draw tings
+        // Drawing Logic
         bool moved = (curr_ix != prev_x || curr_iy != prev_y);
         bool drawing = (btn_state == 0);
 
