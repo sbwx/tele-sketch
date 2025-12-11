@@ -221,7 +221,7 @@ extern "C" void app_main(void)
     bool was_drawing = false;
 
     const int DEADZONE = 120;
-    const float MAX_SPEED = 3.5; 
+    const float MAX_SPEED = 2; 
     const float DIVISOR = 2000.0 / MAX_SPEED;
 
     while (1) {
