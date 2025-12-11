@@ -152,7 +152,7 @@ uint16_t hsv_to_rgb565(float h, float s, float v) {
 int size_index = 1; 
 bool is_eraser = false;
 uint16_t current_color = TFT_BLACK;
-bool is_pastel_mode = false; 
+bool is_light_mode = false; 
 
 int BRUSH_SIZES[]  = {2, 4, 8};
 int ERASER_SIZES[] = {6, 12, 24}; 
@@ -265,14 +265,14 @@ extern "C" void app_main(void)
                     
                     if (dist < 250) {
                         // Center Zone: Black (Dark Mode) or White (Light Mode)
-                        current_color = is_pastel_mode ? TFT_WHITE : TFT_BLACK;
+                        current_color = is_light_mode ? TFT_WHITE : TFT_BLACK;
                     } else {
                         // Map distance to 0.0 -> 1.0 factor
                         float factor = (dist - 250) / 1750.0;
                         if (factor < 0.2) factor = 0.2;
                         if (factor > 1.0) factor = 1.0;
 
-                        if (is_pastel_mode) {
+                        if (is_light_mode) {
                             // LIGHT: Saturation changes (Fade to White)
                             current_color = hsv_to_rgb565(angle, factor, 1.0); 
                         } else {
@@ -290,8 +290,8 @@ extern "C" void app_main(void)
             // Button released
             // If never entered wheel, it was a press
             if (!entered_wheel) {
-                is_pastel_mode = !is_pastel_mode;
-                printf("Palette: %s\n", is_pastel_mode ? "LIGHT" : "DARK");
+                is_light_mode = !is_light_mode;
+                printf("Palette: %s\n", is_light_mode ? "LIGHT" : "DARK");
                 // Force redraw to show the user
                 drawCursorAt((int)cursor_x, (int)cursor_y);
             }
