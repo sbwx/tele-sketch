@@ -44,7 +44,7 @@ public:
         {
             auto cfg = _panel_instance.config();
             cfg.pin_cs   = 9;
-            cfg.pin_rst  = 46;
+            cfg.pin_rst  = 21;
             cfg.panel_width  = 320; 
             cfg.panel_height = 480;
             cfg.readable = false;
