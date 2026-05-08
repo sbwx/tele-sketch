@@ -15,10 +15,10 @@
 #define JOY_X_CHAN     ADC_CHANNEL_3
 #define JOY_Y_CHAN     ADC_CHANNEL_4
 
-#define BTN_DRAW_PIN   15 // Hold to draw/erase
-#define BTN_COLOR_PIN  16 // Press=Toggle Palette, Hold=Color Wheel
-#define BTN_UNDO_PIN   17 // Press=UNDO, Hold=CLEAR
-#define BTN_TOOL_PIN   18 // Press=Cycle, Hold=Toggle Brush/Eraser
+#define BTN_DRAW_PIN   7  // Hold to draw/erase
+#define BTN_COLOR_PIN  15 // Press=Toggle Palette, Hold=Color Wheel
+#define BTN_UNDO_PIN   16 // Press=UNDO, Hold=CLEAR
+#define BTN_TOOL_PIN   17 // Press=Cycle, Hold=Toggle Brush/Eraser
 
 /* Display Config */
 class LGFX : public lgfx::LGFX_Device {
